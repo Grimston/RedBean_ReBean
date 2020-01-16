@@ -4,8 +4,7 @@ require 'rb.php';
 require 'ReBean.php';
 
 // currently only working for MYSQL so setup your connection here
-R::setup('mysql:host=localhost;dbname=redbeandemo',
-         'root','');
+R::setup('mysql:host=localhost;dbname=redbeandemo', 'root', '');
 
 /*
  * just for demo purpose to see that each time really everything gets build
@@ -15,8 +14,8 @@ R::nuke();
 
 // Create a new Bean and set some properties
 $user = R::dispense('user');
-$user->prename = "Unknown";
-$user->surname = "User";
+$user->prename = 'Unknown';
+$user->surname = 'User';
 $user->age = 12;
 
 // store the bean
@@ -30,10 +29,10 @@ R::createRevisionSupport($user);
  * also add some sleeps to see difference in logged date
  */
 $usernew = R::dispense('user');
-$usernew->prename = "Test1";
+$usernew->prename = 'Test1';
 R::store($usernew);
 sleep(1);
-$usernew->prename = "Test2";
+$usernew->prename = 'Test2';
 R::store($usernew);
 sleep(2);
 R::trash($usernew);
@@ -41,12 +40,6 @@ sleep(1);
 
 // output of the revision table
 $revisions = R::find('revisionuser');
-foreach($revisions as $rev)
-{
-  echo "Action: " . $rev->action . " -> ".
-                    $rev->prename . " "  .
-                    $rev->surname . " "  .
-                    $rev->age            .
-                    " Lastchangedate: "  .
-                    $rev->lastedit . "<br/>";
+foreach ($revisions as $rev) {
+    echo sprintf("Action: %s -> %s %s %s Lastchangedate: %s<br/>\n", $rev->action, $rev->prename, $rev->surname, $rev->age, $rev->lastedit);
 }
